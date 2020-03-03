@@ -1,0 +1,8 @@
+{
+  "name": "my-react",
+  "version": "1.0.0",
+  "description": "react.js",
+  "main": "index.js",
+  "author": "szy0syz <szy0syz@gmail.com>",
+  "license": "MIT"
+}
