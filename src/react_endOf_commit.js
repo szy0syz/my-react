@@ -1,12 +1,5 @@
 const requestIdleCallback = window.requestIdleCallback;
 
-// 全局变量: 下一个单元的任务
-// 这个全局变量会第一次由render来初始化
-let nextUnitOfWork = null;
-
-let wipRoot = null;
-let currentRoot = null;
-
 function createElement(type, props, ...children) {
   delete props.__source;
   return {
@@ -56,7 +49,6 @@ function render(vdom, container) {
     props: {
       children: [vdom],
     },
-    base: currentRoot
   };
   nextUnitOfWork = wipRoot;
 
@@ -81,10 +73,16 @@ function commitWorker(fiber) {
 function commitRoot() {
   // 子元素
   commitWorker(wipRoot.child);
-  currentRoot = wipRoot;
+
   // 便利完就设置null，不重复工作
   wipRoot = null;
 }
+
+// 全局变量: 下一个单元的任务
+// 这个全局变量会第一次由render来初始化
+let nextUnitOfWork = null;
+
+let wipRoot = null;
 
 // 调度我们的diff或者渲染任务
 function workLoop(deadline) {

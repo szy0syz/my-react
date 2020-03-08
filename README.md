@@ -138,3 +138,32 @@ export default {
   }
 }
 ```
+
+## 4. concurrent 并行
+
+> 调度
+
+```js
+// 全局变量: 下一个单元的任务
+// 这个全局变量会第一次由render来初始化
+let nextUnitOfWork = null;
+
+// 调度我们的diff或者渲染任务
+function workLoop(deadline) {
+  // 有下一个任务，并且当前帧还没有结束
+  while(nextUnitOfWork && deadline.timeRemaining() >1 ) {
+    nextUnitOfWork = performUnitOfWork(nextUnitOfWork)
+  }
+  window.requestIdelCallback(workLoop);
+}
+
+// 启动空闲实现处理
+window.requestIdelCallback(workLoop)
+
+// 1
+function performUnitOfWork(fiber) {
+  // 根据当前的任务，获取下一个任务
+}
+```
+
+## 5. fibers
